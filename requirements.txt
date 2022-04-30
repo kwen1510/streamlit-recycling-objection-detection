@@ -9,3 +9,4 @@ typing_extensions==4.1.1
 torch
 torchvision
 pyyaml
+seaborn
