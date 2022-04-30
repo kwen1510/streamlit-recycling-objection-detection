@@ -19,6 +19,9 @@ import pydub
 import streamlit as st
 from aiortc.contrib.media import MediaPlayer
 
+# For object detection with YOLOv5
+import torch
+
 from streamlit_webrtc import (
     AudioProcessorBase,
     RTCConfiguration,
