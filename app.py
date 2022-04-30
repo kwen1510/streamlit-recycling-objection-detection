@@ -19,8 +19,8 @@ import pydub
 import streamlit as st
 from aiortc.contrib.media import MediaPlayer
 
-# For object detection with YOLOv5
-import torch
+# # For object detection with YOLOv5
+# import torch
 
 from streamlit_webrtc import (
     AudioProcessorBase,
@@ -88,26 +88,8 @@ RTC_CONFIGURATION = RTCConfiguration(
 
 def main():
     st.header("WebRTC demo")
-
-    object_detection_page = "Real time object detection (sendrecv)"
-    app_mode = st.sidebar.selectbox(
-        "Choose the app mode",
-        [
-            object_detection_page
-        ],
-    )
-    st.subheader(app_mode)
-
-    if app_mode == object_detection_page:
-        app_object_detection()
-
-    st.sidebar.markdown(
-        """
----
-<a href="https://www.buymeacoffee.com/whitphx" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="180" height="50" ></a>
-    """,  # noqa: E501
-        unsafe_allow_html=True,
-    )
+    
+    app_object_detection()
 
     logger.debug("=== Alive threads ===")
     for thread in threading.enumerate():
@@ -126,8 +108,8 @@ def app_object_detection():
     PROTOTXT_URL = "https://github.com/robmarkcole/object-detection-app/raw/master/model/MobileNetSSD_deploy.prototxt.txt"  # noqa: E501
     PROTOTXT_LOCAL_PATH = HERE / "./models/MobileNetSSD_deploy.prototxt.txt"
    
-    # Download model file from YOLOv5
-    model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
+#     # Download model file from YOLOv5
+#     model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
     
     CLASSES = [
         "background",
