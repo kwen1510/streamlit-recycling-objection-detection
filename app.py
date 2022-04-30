@@ -244,7 +244,8 @@ def app_object_detection():
 
     st.markdown(
         "This demo uses a model and code from "
-        "https://github.com/robmarkcole/object-detection-app. "
+        "https://github.com/robmarkcole/object-detection-app and"
+        "https://github.com/whitphx/streamlit-webrtc-example."
         "Many thanks to the project."
     )
 
