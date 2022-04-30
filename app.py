@@ -125,7 +125,10 @@ def app_object_detection():
     MODEL_LOCAL_PATH = HERE / "./models/MobileNetSSD_deploy.caffemodel"
     PROTOTXT_URL = "https://github.com/robmarkcole/object-detection-app/raw/master/model/MobileNetSSD_deploy.prototxt.txt"  # noqa: E501
     PROTOTXT_LOCAL_PATH = HERE / "./models/MobileNetSSD_deploy.prototxt.txt"
-
+   
+    # Download model file from YOLOv5
+    model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
+    
     CLASSES = [
         "background",
         "aeroplane",
@@ -206,7 +209,7 @@ def app_object_detection():
 
         def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
             
-            st.write(frame)
+            results = model(frame)
             
             image = frame.to_ndarray(format="bgr24")
             blob = cv2.dnn.blobFromImage(
