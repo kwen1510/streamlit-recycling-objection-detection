@@ -395,6 +395,9 @@ def app_object_detection():
             return image, result
 
         def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
+            
+            st.write(frame)
+            
             image = frame.to_ndarray(format="bgr24")
             blob = cv2.dnn.blobFromImage(
                 cv2.resize(image, (300, 300)), 0.007843, (300, 300), 127.5
