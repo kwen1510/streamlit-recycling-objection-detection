@@ -207,8 +207,9 @@ def app_object_detection():
             # NOTE: This `recv` method is called in another thread,
             # so it must be thread-safe.
             self.result_queue.put(result)
+                        
 
-            return av.VideoFrame.from_ndarray(results, format="bgr24")
+            return av.VideoFrame.from_ndarray(np.squeeze(results.render()), format="bgr24")
 #             return av.VideoFrame.from_ndarray(annotated_image, format="bgr24")
 
     webrtc_ctx = webrtc_streamer(
