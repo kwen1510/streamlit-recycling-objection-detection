@@ -137,7 +137,7 @@ def app_object_detection():
 #     ]
 #     COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
 
-    download_file(MODEL_URL, MODEL_LOCAL_PATH)
+    download_file(MODEL_URL, MODEL_LOCAL_PATH, expected_size=14000)
 #     download_file(PROTOTXT_URL, PROTOTXT_LOCAL_PATH, expected_size=29353)
 
     # Download model file from YOLOv5
