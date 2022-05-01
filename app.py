@@ -19,8 +19,8 @@ import pydub
 import streamlit as st
 from aiortc.contrib.media import MediaPlayer
 
-# # For object detection with YOLOv5
-# import torch
+# For object detection with YOLOv5
+import torch
 
 from streamlit_webrtc import (
     AudioProcessorBase,
@@ -108,8 +108,8 @@ def app_object_detection():
     PROTOTXT_URL = "https://github.com/robmarkcole/object-detection-app/raw/master/model/MobileNetSSD_deploy.prototxt.txt"  # noqa: E501
     PROTOTXT_LOCAL_PATH = HERE / "./models/MobileNetSSD_deploy.prototxt.txt"
    
-#     # Download model file from YOLOv5
-#     model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
+    # Download model file from YOLOv5
+    model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
     
     CLASSES = [
         "background",
