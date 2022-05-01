@@ -195,6 +195,8 @@ def app_object_detection():
             
             results = model(image)
             
+            model.conf = confidence_threshold
+            
 #             blob = cv2.dnn.blobFromImage(
 #                 cv2.resize(image, (300, 300)), 0.007843, (300, 300), 127.5
 #             )
@@ -220,10 +222,12 @@ def app_object_detection():
         media_stream_constraints={"video": True, "audio": False},
         async_processing=True,
     )
+    
+    DEFAULT_CONFIDENCE_THRESHOLD = 0.5
 
-#     confidence_threshold = st.slider(
-#         "Confidence threshold", 0.0, 1.0, DEFAULT_CONFIDENCE_THRESHOLD, 0.05
-#     )
+    confidence_threshold = st.slider(
+        "Confidence threshold", 0.0, 1.0, DEFAULT_CONFIDENCE_THRESHOLD, 0.05
+    )
 #     if webrtc_ctx.video_processor:
 #         webrtc_ctx.video_processor.confidence_threshold = confidence_threshold
 
