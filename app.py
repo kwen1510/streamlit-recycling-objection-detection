@@ -99,95 +99,95 @@ def main():
             
 # Code for object detection
 def app_object_detection():
-    """Object detection demo with MobileNet SSD.
-    This model and code are based on
-    https://github.com/robmarkcole/object-detection-app
-    """
-    MODEL_URL = "https://github.com/robmarkcole/object-detection-app/raw/master/model/MobileNetSSD_deploy.caffemodel"  # noqa: E501
-    MODEL_LOCAL_PATH = HERE / "./models/MobileNetSSD_deploy.caffemodel"
-    PROTOTXT_URL = "https://github.com/robmarkcole/object-detection-app/raw/master/model/MobileNetSSD_deploy.prototxt.txt"  # noqa: E501
-    PROTOTXT_LOCAL_PATH = HERE / "./models/MobileNetSSD_deploy.prototxt.txt"
+#     """Object detection demo with MobileNet SSD.
+#     This model and code are based on
+#     https://github.com/robmarkcole/object-detection-app
+#     """
+#     MODEL_URL = "https://github.com/robmarkcole/object-detection-app/raw/master/model/MobileNetSSD_deploy.caffemodel"  # noqa: E501
+#     MODEL_LOCAL_PATH = HERE / "./models/MobileNetSSD_deploy.caffemodel"
+#     PROTOTXT_URL = "https://github.com/robmarkcole/object-detection-app/raw/master/model/MobileNetSSD_deploy.prototxt.txt"  # noqa: E501
+#     PROTOTXT_LOCAL_PATH = HERE / "./models/MobileNetSSD_deploy.prototxt.txt"
    
     # Download model file from YOLOv5
     model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
     
-    CLASSES = [
-        "background",
-        "aeroplane",
-        "bicycle",
-        "bird",
-        "boat",
-        "bottle",
-        "bus",
-        "car",
-        "cat",
-        "chair",
-        "cow",
-        "diningtable",
-        "dog",
-        "horse",
-        "motorbike",
-        "person",
-        "pottedplant",
-        "sheep",
-        "sofa",
-        "train",
-        "tvmonitor",
-    ]
-    COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
+#     CLASSES = [
+#         "background",
+#         "aeroplane",
+#         "bicycle",
+#         "bird",
+#         "boat",
+#         "bottle",
+#         "bus",
+#         "car",
+#         "cat",
+#         "chair",
+#         "cow",
+#         "diningtable",
+#         "dog",
+#         "horse",
+#         "motorbike",
+#         "person",
+#         "pottedplant",
+#         "sheep",
+#         "sofa",
+#         "train",
+#         "tvmonitor",
+#     ]
+#     COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
 
-    download_file(MODEL_URL, MODEL_LOCAL_PATH, expected_size=23147564)
-    download_file(PROTOTXT_URL, PROTOTXT_LOCAL_PATH, expected_size=29353)
+#     download_file(MODEL_URL, MODEL_LOCAL_PATH, expected_size=23147564)
+#     download_file(PROTOTXT_URL, PROTOTXT_LOCAL_PATH, expected_size=29353)
 
-    DEFAULT_CONFIDENCE_THRESHOLD = 0.5
+#     DEFAULT_CONFIDENCE_THRESHOLD = 0.5
 
-    class Detection(NamedTuple):
-        name: str
-        prob: float
+#     class Detection(NamedTuple):
+#         name: str
+#         prob: float
 
     class MobileNetSSDVideoProcessor(VideoProcessorBase):
-        confidence_threshold: float
-        result_queue: "queue.Queue[List[Detection]]"
+#         confidence_threshold: float
+#         result_queue: "queue.Queue[List[Detection]]"
 
-        def __init__(self) -> None:
-            self._net = cv2.dnn.readNetFromCaffe(
-                str(PROTOTXT_LOCAL_PATH), str(MODEL_LOCAL_PATH)
-            )
-            self.confidence_threshold = DEFAULT_CONFIDENCE_THRESHOLD
-            self.result_queue = queue.Queue()
+#         def __init__(self) -> None:
+#             self._net = cv2.dnn.readNetFromCaffe(
+#                 str(PROTOTXT_LOCAL_PATH), str(MODEL_LOCAL_PATH)
+#             )
+#             self.confidence_threshold = DEFAULT_CONFIDENCE_THRESHOLD
+#             self.result_queue = queue.Queue()
 
-        def _annotate_image(self, image, detections):
-            # loop over the detections
-            (h, w) = image.shape[:2]
-            result: List[Detection] = []
-            for i in np.arange(0, detections.shape[2]):
-                confidence = detections[0, 0, i, 2]
+#         def _annotate_image(self, image, detections):
+#             # loop over the detections
+#             (h, w) = image.shape[:2]
+#             result: List[Detection] = []
+#             for i in np.arange(0, detections.shape[2]):
+#                 confidence = detections[0, 0, i, 2]
 
-                if confidence > self.confidence_threshold:
-                    # extract the index of the class label from the `detections`,
-                    # then compute the (x, y)-coordinates of the bounding box for
-                    # the object
-                    idx = int(detections[0, 0, i, 1])
-                    box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
-                    (startX, startY, endX, endY) = box.astype("int")
+#                 if confidence > self.confidence_threshold:
+#                     # extract the index of the class label from the `detections`,
+#                     # then compute the (x, y)-coordinates of the bounding box for
+#                     # the object
+#                     idx = int(detections[0, 0, i, 1])
+#                     box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
+#                     (startX, startY, endX, endY) = box.astype("int")
 
-                    name = CLASSES[idx]
-                    result.append(Detection(name=name, prob=float(confidence)))
+#                     name = CLASSES[idx]
+#                     result.append(Detection(name=name, prob=float(confidence)))
 
-                    # display the prediction
-                    label = f"{name}: {round(confidence * 100, 2)}%"
-                    cv2.rectangle(image, (startX, startY), (endX, endY), COLORS[idx], 2)
-                    y = startY - 15 if startY - 15 > 15 else startY + 15
-                    cv2.putText(
-                        image,
-                        label,
-                        (startX, y),
-                        cv2.FONT_HERSHEY_SIMPLEX,
-                        0.5,
-                        COLORS[idx],
-                        2,
-                    )
-            return image, result
+#                     # display the prediction
+#                     label = f"{name}: {round(confidence * 100, 2)}%"
+#                     cv2.rectangle(image, (startX, startY), (endX, endY), COLORS[idx], 2)
+#                     y = startY - 15 if startY - 15 > 15 else startY + 15
+#                     cv2.putText(
+#                         image,
+#                         label,
+#                         (startX, y),
+#                         cv2.FONT_HERSHEY_SIMPLEX,
+#                         0.5,
+#                         COLORS[idx],
+#                         2,
+#                     )
+#             return image, result
 
         def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
             
@@ -221,35 +221,35 @@ def app_object_detection():
         async_processing=True,
     )
 
-    confidence_threshold = st.slider(
-        "Confidence threshold", 0.0, 1.0, DEFAULT_CONFIDENCE_THRESHOLD, 0.05
-    )
-    if webrtc_ctx.video_processor:
-        webrtc_ctx.video_processor.confidence_threshold = confidence_threshold
+#     confidence_threshold = st.slider(
+#         "Confidence threshold", 0.0, 1.0, DEFAULT_CONFIDENCE_THRESHOLD, 0.05
+#     )
+#     if webrtc_ctx.video_processor:
+#         webrtc_ctx.video_processor.confidence_threshold = confidence_threshold
 
-    if st.checkbox("Show the detected labels", value=True):
-        if webrtc_ctx.state.playing:
-            labels_placeholder = st.empty()
-            # NOTE: The video transformation with object detection and
-            # this loop displaying the result labels are running
-            # in different threads asynchronously.
-            # Then the rendered video frames and the labels displayed here
-            # are not strictly synchronized.
-            while True:
-                if webrtc_ctx.video_processor:
-                    try:
-                        result = webrtc_ctx.video_processor.result_queue.get(
-                            timeout=1.0
-                        )
-                    except queue.Empty:
-                        result = None
-                    labels_placeholder.table(result)
-                else:
-                    break
+#     if st.checkbox("Show the detected labels", value=True):
+#         if webrtc_ctx.state.playing:
+#             labels_placeholder = st.empty()
+#             # NOTE: The video transformation with object detection and
+#             # this loop displaying the result labels are running
+#             # in different threads asynchronously.
+#             # Then the rendered video frames and the labels displayed here
+#             # are not strictly synchronized.
+#             while True:
+#                 if webrtc_ctx.video_processor:
+#                     try:
+#                         result = webrtc_ctx.video_processor.result_queue.get(
+#                             timeout=1.0
+#                         )
+#                     except queue.Empty:
+#                         result = None
+#                     labels_placeholder.table(result)
+#                 else:
+#                     break
 
     st.markdown(
         "This demo uses a model and code from "
-        "https://github.com/robmarkcole/object-detection-app and "
+#         "https://github.com/robmarkcole/object-detection-app and "
         "https://github.com/whitphx/streamlit-webrtc-example. "
         "Many thanks to the project."
     )
