@@ -196,7 +196,7 @@ def app_object_detection():
             
             results = model(image)
             
-            model.conf = 0.5
+            model.conf = 0.3
             
 #             blob = cv2.dnn.blobFromImage(
 #                 cv2.resize(image, (300, 300)), 0.007843, (300, 300), 127.5
