@@ -202,11 +202,11 @@ def app_object_detection():
 #             detections = self._net.forward()
 #             annotated_image, result = self._annotate_image(image, detections)
 
-            result = 0.9
+#             result = 0.9
 
-            # NOTE: This `recv` method is called in another thread,
-            # so it must be thread-safe.
-            self.result_queue.put(result)
+#             # NOTE: This `recv` method is called in another thread,
+#             # so it must be thread-safe.
+#             self.result_queue.put(result)
                         
 
             return av.VideoFrame.from_ndarray(np.squeeze(results.render()), format="bgr24")
