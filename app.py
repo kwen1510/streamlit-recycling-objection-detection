@@ -107,10 +107,11 @@ def app_object_detection():
 #     MODEL_LOCAL_PATH = HERE / "./models/MobileNetSSD_deploy.caffemodel"
 #     PROTOTXT_URL = "https://github.com/robmarkcole/object-detection-app/raw/master/model/MobileNetSSD_deploy.prototxt.txt"  # noqa: E501
 #     PROTOTXT_LOCAL_PATH = HERE / "./models/MobileNetSSD_deploy.prototxt.txt"
+
+    MODEL_URL = "https://github.com/kwen1510/streamlit-webrtc/raw/main/model/best.pt"
+    MODEL_LOCAL_PATH = HERE / "./models/best.pt"
    
-    # Download model file from YOLOv5
-    model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
-    
+   
 #     CLASSES = [
 #         "background",
 #         "aeroplane",
@@ -136,8 +137,11 @@ def app_object_detection():
 #     ]
 #     COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
 
-#     download_file(MODEL_URL, MODEL_LOCAL_PATH, expected_size=23147564)
+    download_file(MODEL_URL, MODEL_LOCAL_PATH)
 #     download_file(PROTOTXT_URL, PROTOTXT_LOCAL_PATH, expected_size=29353)
+
+    # Download model file from YOLOv5
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_LOCAL_PATH, force_reload=True)
 
 #     DEFAULT_CONFIDENCE_THRESHOLD = 0.5
 
