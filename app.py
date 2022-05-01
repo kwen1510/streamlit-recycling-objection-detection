@@ -87,7 +87,7 @@ RTC_CONFIGURATION = RTCConfiguration(
 
 
 def main():
-    st.header("WebRTC demo")
+    st.header("Streamlit Recycling Object Detection")
     
     app_object_detection()
 
