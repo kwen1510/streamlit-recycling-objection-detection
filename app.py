@@ -195,18 +195,21 @@ def app_object_detection():
             
             results = model(image)
             
-            blob = cv2.dnn.blobFromImage(
-                cv2.resize(image, (300, 300)), 0.007843, (300, 300), 127.5
-            )
-            self._net.setInput(blob)
-            detections = self._net.forward()
-            annotated_image, result = self._annotate_image(image, detections)
+#             blob = cv2.dnn.blobFromImage(
+#                 cv2.resize(image, (300, 300)), 0.007843, (300, 300), 127.5
+#             )
+#             self._net.setInput(blob)
+#             detections = self._net.forward()
+#             annotated_image, result = self._annotate_image(image, detections)
+
+            result = 0.9
 
             # NOTE: This `recv` method is called in another thread,
             # so it must be thread-safe.
             self.result_queue.put(result)
 
-            return av.VideoFrame.from_ndarray(annotated_image, format="bgr24")
+            return av.VideoFrame.from_ndarray(results, format="bgr24")
+#             return av.VideoFrame.from_ndarray(annotated_image, format="bgr24")
 
     webrtc_ctx = webrtc_streamer(
         key="object-detection",
