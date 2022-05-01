@@ -146,14 +146,14 @@ def app_object_detection():
 #         prob: float
 
     class MobileNetSSDVideoProcessor(VideoProcessorBase):
-        confidence_threshold: float
+#         confidence_threshold: float
 #         result_queue: "queue.Queue[List[Detection]]"
 
-        def __init__(self) -> None:
+#         def __init__(self) -> None:
 #             self._net = cv2.dnn.readNetFromCaffe(
 #                 str(PROTOTXT_LOCAL_PATH), str(MODEL_LOCAL_PATH)
 #             )
-            self.confidence_threshold = DEFAULT_CONFIDENCE_THRESHOLD
+#             self.confidence_threshold = DEFAULT_CONFIDENCE_THRESHOLD
 #             self.result_queue = queue.Queue()
 
 #         def _annotate_image(self, image, detections):
@@ -196,7 +196,7 @@ def app_object_detection():
             
             results = model(image)
             
-            model.conf = confidence_threshold
+            model.conf = 0.05
             
 #             blob = cv2.dnn.blobFromImage(
 #                 cv2.resize(image, (300, 300)), 0.007843, (300, 300), 127.5
@@ -224,12 +224,12 @@ def app_object_detection():
         async_processing=True,
     )
 
-    confidence_threshold = st.slider(
-        "Confidence threshold", 0.0, 1.0, DEFAULT_CONFIDENCE_THRESHOLD, 0.05
-    )
+#     confidence_threshold = st.slider(
+#         "Confidence threshold", 0.0, 1.0, DEFAULT_CONFIDENCE_THRESHOLD, 0.05
+#     )
     
-    if webrtc_ctx.video_processor:
-        webrtc_ctx.video_processor.confidence_threshold = confidence_threshold
+#     if webrtc_ctx.video_processor:
+#         webrtc_ctx.video_processor.confidence_threshold = confidence_threshold
 
 #     if st.checkbox("Show the detected labels", value=True):
 #         if webrtc_ctx.state.playing:
