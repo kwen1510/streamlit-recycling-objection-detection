@@ -189,6 +189,14 @@ def app_object_detection():
 #                     )
 #             return image, result
 
+
+        DEFAULT_CONFIDENCE_THRESHOLD = 0.5
+
+        confidence_threshold = st.slider(
+            "Confidence threshold", 0.0, 1.0, DEFAULT_CONFIDENCE_THRESHOLD, 0.05
+        )
+
+
         def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
             
             image = frame.to_ndarray(format="bgr24")
@@ -223,11 +231,6 @@ def app_object_detection():
         async_processing=True,
     )
     
-    DEFAULT_CONFIDENCE_THRESHOLD = 0.5
-
-    confidence_threshold = st.slider(
-        "Confidence threshold", 0.0, 1.0, DEFAULT_CONFIDENCE_THRESHOLD, 0.05
-    )
 #     if webrtc_ctx.video_processor:
 #         webrtc_ctx.video_processor.confidence_threshold = confidence_threshold
 
