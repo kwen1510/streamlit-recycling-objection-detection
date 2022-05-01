@@ -139,21 +139,21 @@ def app_object_detection():
 #     download_file(MODEL_URL, MODEL_LOCAL_PATH, expected_size=23147564)
 #     download_file(PROTOTXT_URL, PROTOTXT_LOCAL_PATH, expected_size=29353)
 
-#     DEFAULT_CONFIDENCE_THRESHOLD = 0.5
+    DEFAULT_CONFIDENCE_THRESHOLD = 0.5
 
 #     class Detection(NamedTuple):
 #         name: str
 #         prob: float
 
     class MobileNetSSDVideoProcessor(VideoProcessorBase):
-#         confidence_threshold: float
+        confidence_threshold: float
 #         result_queue: "queue.Queue[List[Detection]]"
 
-#         def __init__(self) -> None:
+        def __init__(self) -> None:
 #             self._net = cv2.dnn.readNetFromCaffe(
 #                 str(PROTOTXT_LOCAL_PATH), str(MODEL_LOCAL_PATH)
 #             )
-#             self.confidence_threshold = DEFAULT_CONFIDENCE_THRESHOLD
+            self.confidence_threshold = DEFAULT_CONFIDENCE_THRESHOLD
 #             self.result_queue = queue.Queue()
 
 #         def _annotate_image(self, image, detections):
@@ -190,13 +190,6 @@ def app_object_detection():
 #             return image, result
 
 
-        DEFAULT_CONFIDENCE_THRESHOLD = 0.5
-
-        confidence_threshold = st.slider(
-            "Confidence threshold", 0.0, 1.0, DEFAULT_CONFIDENCE_THRESHOLD, 0.05
-        )
-
-
         def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
             
             image = frame.to_ndarray(format="bgr24")
@@ -230,9 +223,13 @@ def app_object_detection():
         media_stream_constraints={"video": True, "audio": False},
         async_processing=True,
     )
+
+    confidence_threshold = st.slider(
+        "Confidence threshold", 0.0, 1.0, DEFAULT_CONFIDENCE_THRESHOLD, 0.05
+    )
     
-#     if webrtc_ctx.video_processor:
-#         webrtc_ctx.video_processor.confidence_threshold = confidence_threshold
+    if webrtc_ctx.video_processor:
+        webrtc_ctx.video_processor.confidence_threshold = confidence_threshold
 
 #     if st.checkbox("Show the detected labels", value=True):
 #         if webrtc_ctx.state.playing:
