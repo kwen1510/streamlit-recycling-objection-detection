@@ -139,7 +139,7 @@ def app_object_detection():
 #     download_file(MODEL_URL, MODEL_LOCAL_PATH, expected_size=23147564)
 #     download_file(PROTOTXT_URL, PROTOTXT_LOCAL_PATH, expected_size=29353)
 
-    DEFAULT_CONFIDENCE_THRESHOLD = 0.5
+#     DEFAULT_CONFIDENCE_THRESHOLD = 0.5
 
 #     class Detection(NamedTuple):
 #         name: str
@@ -196,7 +196,7 @@ def app_object_detection():
             
             results = model(image)
             
-            model.conf = 0.05
+            model.conf = 0.5
             
 #             blob = cv2.dnn.blobFromImage(
 #                 cv2.resize(image, (300, 300)), 0.007843, (300, 300), 127.5
