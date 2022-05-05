@@ -105,15 +105,14 @@ def app_object_detection():
     This model and code are based on
     https://github.com/robmarkcole/object-detection-app
     """
-    MODEL_URL = "https://github.com/robmarkcole/object-detection-app/raw/master/model/MobileNetSSD_deploy.caffemodel"  # noqa: E501
-    MODEL_LOCAL_PATH = HERE / "./models/MobileNetSSD_deploy.caffemodel"
-    PROTOTXT_URL = "https://github.com/robmarkcole/object-detection-app/raw/master/model/MobileNetSSD_deploy.prototxt.txt"  # noqa: E501
-    PROTOTXT_LOCAL_PATH = HERE / "./models/MobileNetSSD_deploy.prototxt.txt"
+    MODEL_URL = "https://github.com/kwen1510/streamlit-webrtc/raw/main/model/best.pt"
+    MODEL_LOCAL_PATH = HERE / "./models/best.pt"
 
-    COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
-
-    download_file(MODEL_URL, MODEL_LOCAL_PATH, expected_size=23147564)
-    download_file(PROTOTXT_URL, PROTOTXT_LOCAL_PATH, expected_size=29353)
+    # Download model file from YOLOv5
+    download_file(MODEL_URL, MODEL_LOCAL_PATH)
+    
+    # Load model file
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_LOCAL_PATH, force_reload=True)
 
     DEFAULT_CONFIDENCE_THRESHOLD = 0.5
 
