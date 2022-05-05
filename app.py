@@ -127,8 +127,8 @@ def app_object_detection():
         confidence_threshold: float
         result_queue: "queue.Queue[List[Detection]]"
 
-        def __init__(self) -> None:
-            self.result_queue = queue.Queue()
+#         def __init__(self) -> None:
+#             self.result_queue = queue.Queue()
             
         def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
             
