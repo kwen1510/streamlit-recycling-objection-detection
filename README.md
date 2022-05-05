@@ -1,6 +1,10 @@
 # Acknowledgements
 
-This app was created with streamlit-webrtc-example by whitphx. Check out his repo for the amazing code to run the webcam on Streamlit!
+This app was adapted from streamlit-webrtc-example by whitphx. Check out his repo for the amazing code to run the webcam on Streamlit!
+
+The description below is kept in its original form.
+
+The object detection model for recyclable materials is fine-tuned in YOLOv5.
 
 # streamlit-webrtc-example
 
