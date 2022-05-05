@@ -163,32 +163,6 @@ def app_object_detection():
         async_processing=True,
     )
 
-    confidence_threshold = st.slider(
-        "Confidence threshold", 0.0, 1.0, DEFAULT_CONFIDENCE_THRESHOLD, 0.05
-    )
-    if webrtc_ctx.video_processor:
-        webrtc_ctx.video_processor.confidence_threshold = confidence_threshold
-
-    if st.checkbox("Show the detected labels", value=True):
-        if webrtc_ctx.state.playing:
-            labels_placeholder = st.empty()
-            # NOTE: The video transformation with object detection and
-            # this loop displaying the result labels are running
-            # in different threads asynchronously.
-            # Then the rendered video frames and the labels displayed here
-            # are not strictly synchronized.
-            while True:
-                if webrtc_ctx.video_processor:
-                    try:
-                        result = webrtc_ctx.video_processor.result_queue.get(
-                            timeout=1.0
-                        )
-                    except queue.Empty:
-                        result = None
-                    labels_placeholder.table(result)
-                else:
-                    break
-
 
 
 if __name__ == "__main__":
