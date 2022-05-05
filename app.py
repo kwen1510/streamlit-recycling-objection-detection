@@ -6,6 +6,9 @@ import urllib.request
 from pathlib import Path
 from typing import List, NamedTuple
 
+# For object detection
+import torch
+
 try:
     from typing import Literal
 except ImportError:
