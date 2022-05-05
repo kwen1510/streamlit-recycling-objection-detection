@@ -85,72 +85,9 @@ RTC_CONFIGURATION = RTCConfiguration(
 
 def main():
     st.header("WebRTC demo")
-
-    object_detection_page = "Real time object detection (sendrecv)"
-    video_filters_page = (
-        "Real time video transform with simple OpenCV filters (sendrecv)"
-    )
-    audio_filter_page = "Real time audio filter (sendrecv)"
-    delayed_echo_page = "Delayed echo (sendrecv)"
-    streaming_page = (
-        "Consuming media files on server-side and streaming it to browser (recvonly)"
-    )
-    video_sendonly_page = (
-        "WebRTC is sendonly and images are shown via st.image() (sendonly)"
-    )
-    audio_sendonly_page = (
-        "WebRTC is sendonly and audio frames are visualized with matplotlib (sendonly)"
-    )
-    loopback_page = "Simple video and audio loopback (sendrecv)"
-    media_constraints_page = (
-        "Configure media constraints and HTML element styles with loopback (sendrecv)"
-    )
-    programatically_control_page = "Control the playing state programatically"
-    app_mode = st.sidebar.selectbox(
-        "Choose the app mode",
-        [
-            object_detection_page,
-            video_filters_page,
-            audio_filter_page,
-            delayed_echo_page,
-            streaming_page,
-            video_sendonly_page,
-            audio_sendonly_page,
-            loopback_page,
-            media_constraints_page,
-            programatically_control_page,
-        ],
-    )
-    st.subheader(app_mode)
-
-    if app_mode == video_filters_page:
-        app_video_filters()
-    elif app_mode == object_detection_page:
-        app_object_detection()
-    elif app_mode == audio_filter_page:
-        app_audio_filter()
-    elif app_mode == delayed_echo_page:
-        app_delayed_echo()
-    elif app_mode == streaming_page:
-        app_streaming()
-    elif app_mode == video_sendonly_page:
-        app_sendonly_video()
-    elif app_mode == audio_sendonly_page:
-        app_sendonly_audio()
-    elif app_mode == loopback_page:
-        app_loopback()
-    elif app_mode == media_constraints_page:
-        app_media_constraints()
-    elif app_mode == programatically_control_page:
-        app_programatically_play()
-
-    st.sidebar.markdown(
-        """
----
-<a href="https://www.buymeacoffee.com/whitphx" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="180" height="50" ></a>
-    """,  # noqa: E501
-        unsafe_allow_html=True,
-    )
+    
+    # Run object detection
+    app_object_detection()
 
     logger.debug("=== Alive threads ===")
     for thread in threading.enumerate():
