@@ -1,3 +1,7 @@
+# Acknowledgements
+
+This app was created with streamlit-webrtc-example by whitphx. Check out his repo for the amazing code to run the webcam on Streamlit!
+
 # streamlit-webrtc-example
 
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/whitphx?label=Sponsor%20me%20on%20GitHub%20Sponsors&style=social)](https://github.com/sponsors/whitphx)
