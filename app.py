@@ -34,6 +34,9 @@ HERE = Path(__file__).parent
 
 logger = logging.getLogger(__name__)
 
+# Initialise an empty model as a global variable.
+model = None
+
 
 # This code is based on https://github.com/streamlit/demo-self-driving/blob/230245391f2dda0cb464008195a470751c01770b/streamlit_app.py#L48  # noqa: E501
 def download_file(url, download_to: Path, expected_size=None):
@@ -104,10 +107,7 @@ def app_loopback():
     
 
 def app_object_detection():
-    """Object detection demo with MobileNet SSD.
-    This model and code are based on
-    https://github.com/robmarkcole/object-detection-app
-    """
+
     MODEL_URL = "https://github.com/kwen1510/streamlit-webrtc/raw/main/model/best.pt"
     MODEL_LOCAL_PATH = HERE / "./models/best.pt"
 
@@ -129,54 +129,30 @@ def app_object_detection():
 
         def __init__(self) -> None:
             self.result_queue = queue.Queue()
-
-        def _annotate_image(self, image, detections):
-            # loop over the detections
-            (h, w) = image.shape[:2]
-            result: List[Detection] = []
-            for i in np.arange(0, detections.shape[2]):
-                confidence = detections[0, 0, i, 2]
-
-                if confidence > self.confidence_threshold:
-                    # extract the index of the class label from the `detections`,
-                    # then compute the (x, y)-coordinates of the bounding box for
-                    # the object
-                    idx = int(detections[0, 0, i, 1])
-                    box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
-                    (startX, startY, endX, endY) = box.astype("int")
-
-                    name = CLASSES[idx]
-                    result.append(Detection(name=name, prob=float(confidence)))
-
-                    # display the prediction
-                    label = f"{name}: {round(confidence * 100, 2)}%"
-                    cv2.rectangle(image, (startX, startY), (endX, endY), COLORS[idx], 2)
-                    y = startY - 15 if startY - 15 > 15 else startY + 15
-                    cv2.putText(
-                        image,
-                        label,
-                        (startX, y),
-                        cv2.FONT_HERSHEY_SIMPLEX,
-                        0.5,
-                        COLORS[idx],
-                        2,
-                    )
-            return image, result
-
+            
         def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
+            
             image = frame.to_ndarray(format="bgr24")
-            blob = cv2.dnn.blobFromImage(
-                cv2.resize(image, (300, 300)), 0.007843, (300, 300), 127.5
-            )
-            self._net.setInput(blob)
-            detections = self._net.forward()
-            annotated_image, result = self._annotate_image(image, detections)
+            
+            results = model(image)
+            
+            model.conf = 0.3
+            
+            
+            
+#             image = frame.to_ndarray(format="bgr24")
+#             blob = cv2.dnn.blobFromImage(
+#                 cv2.resize(image, (300, 300)), 0.007843, (300, 300), 127.5
+#             )
+#             self._net.setInput(blob)
+#             detections = self._net.forward()
+#             annotated_image, result = self._annotate_image(image, detections)
 
             # NOTE: This `recv` method is called in another thread,
             # so it must be thread-safe.
             self.result_queue.put(result)
 
-            return av.VideoFrame.from_ndarray(annotated_image, format="bgr24")
+            return av.VideoFrame.from_ndarray(np.squeeze(results.render()), format="bgr24")
 
     webrtc_ctx = webrtc_streamer(
         key="object-detection",
