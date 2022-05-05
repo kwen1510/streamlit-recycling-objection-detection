@@ -117,18 +117,13 @@ def app_object_detection():
     # Load model file
     model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_LOCAL_PATH, force_reload=True)
 
-    DEFAULT_CONFIDENCE_THRESHOLD = 0.5
-
     class Detection(NamedTuple):
         name: str
         prob: float
 
     class MobileNetSSDVideoProcessor(VideoProcessorBase):
-        confidence_threshold: float
-        result_queue: "queue.Queue[List[Detection]]"
-
-#         def __init__(self) -> None:
-#             self.result_queue = queue.Queue()
+#         confidence_threshold: float
+#         result_queue: "queue.Queue[List[Detection]]"
             
         def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
             
@@ -136,21 +131,8 @@ def app_object_detection():
             
             results = model(image)
             
+            # Set the threshold for the model
             model.conf = 0.3
-            
-            
-            
-#             image = frame.to_ndarray(format="bgr24")
-#             blob = cv2.dnn.blobFromImage(
-#                 cv2.resize(image, (300, 300)), 0.007843, (300, 300), 127.5
-#             )
-#             self._net.setInput(blob)
-#             detections = self._net.forward()
-#             annotated_image, result = self._annotate_image(image, detections)
-
-            # NOTE: This `recv` method is called in another thread,
-            # so it must be thread-safe.
-#             self.result_queue.put(result)
 
             return av.VideoFrame.from_ndarray(np.squeeze(results.render()), format="bgr24")
 
