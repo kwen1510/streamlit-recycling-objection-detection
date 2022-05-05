@@ -128,10 +128,6 @@ def app_object_detection():
         result_queue: "queue.Queue[List[Detection]]"
 
         def __init__(self) -> None:
-            self._net = cv2.dnn.readNetFromCaffe(
-                str(PROTOTXT_LOCAL_PATH), str(MODEL_LOCAL_PATH)
-            )
-            self.confidence_threshold = DEFAULT_CONFIDENCE_THRESHOLD
             self.result_queue = queue.Queue()
 
         def _annotate_image(self, image, detections):
