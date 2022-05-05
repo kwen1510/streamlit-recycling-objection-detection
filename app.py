@@ -122,8 +122,6 @@ def app_object_detection():
         prob: float
 
     class MobileNetSSDVideoProcessor(VideoProcessorBase):
-#         confidence_threshold: float
-#         result_queue: "queue.Queue[List[Detection]]"
             
         def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
             
